@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    url: ${POUSO_DB_URL}
+    username: ${POUSO_DB_USER}
+    password: ${POUSO_DB_PASSWORD}
+
+  thymeleaf:
+    cache: true
+
+server:
+  port: ${POUSO_SV_PORT:8080}

@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/pouso_db
+    username: pouso_renan
+    password: pouso_renan_senha
+
+server:
+  port: 8080
+

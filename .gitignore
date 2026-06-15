@@ -33,5 +33,5 @@ build/
 .vscode/
 
 
-### ENVIRONMENT SECRETS ###
-.env
+### ENVIRONMENT PROPERTIES ###
+application-local.yml

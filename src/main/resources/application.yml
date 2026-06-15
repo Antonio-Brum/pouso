@@ -1,0 +1,14 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: pouso
+  profiles:
+    active: dev
+
+  flyway:
+    enabled: true
+
+  thymeleaf:
+    enabled: true
