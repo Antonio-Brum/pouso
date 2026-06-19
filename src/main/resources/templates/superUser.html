@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Gerenciar Usuários - Pouso</title>
+        <!-- BeerCSS -->
+        <link
+            href="https://cdn.jsdelivr.net/npm/beercss@3.6.8/dist/cdn/beer.min.css"
+            rel="stylesheet"
+        />
+        <script
+            type="module"
+            src="https://cdn.jsdelivr.net/npm/beercss@3.6.8/dist/cdn/beer.min.js"
+        ></script>
+        <script
+            type="module"
+            src="https://cdn.jsdelivr.net/npm/material-dynamic-colors@1.1.2/dist/cdn/material-dynamic-colors.min.js"
+        ></script>
+
+        <style>
+            /* Ajuste fino para a cor do card conforme a imagem, caso o tema padrão não fique idêntico */
+            .card-usuario {
+                background-color: #eaddff; /* Tom de lilás da imagem */
+            }
+            .placeholder-img {
+                width: 100px;
+                height: 100px;
+                background-color: rgba(255, 255, 255, 0.3);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        </style>
+    </head>
+    <body class="light">
+        <header class="top fixed">
+            <nav>
+                <button class="circle transparent">
+                    <i>menu</i>
+                </button>
+                <h5 class="max"><i>home</i> Pouso</h5>
+
+                <div class="field round prefix small max">
+                    <i>search</i>
+                    <input type="text" placeholder="Buscar..." />
+                </div>
+
+                <button class="circle transparent">
+                    <i>mail</i>
+                    <div class=""></div>
+                </button>
+                <span>SuperUser</span>
+                <button class="circle transparent">
+                    <i>account_circle</i>
+                </button>
+            </nav>
+        </header>
+
+        <main class="responsive">
+            <!-- Barra de Filtros e Labels -->
+            <nav class="wrap padding-bottom">
+                <button class="border round">
+                    Categoria <i>arrow_drop_down</i>
+                </button>
+                <label class="checkbox">
+                    <input type="checkbox" />
+                    <span></span>
+                </label>
+                <button class="border round">Label</button>
+                <button class="border round">Label</button>
+            </nav>
+
+            <!-- Container Principal (Cartão Branco) -->
+            <article
+                class="surface round large-padding no-elevate"
+                style="min-height: 80vh"
+            >
+                <h4 class="margin-bottom">Gerenciar Usuários</h4>
+
+                <!-- Fallback caso não tenha usuários -->
+                <div th:if="${#lists.isEmpty(usuarios)}">
+                    <p>Nenhum usuário cadastrado no sistema.</p>
+                </div>
+
+                <!-- Loop Thymeleaf: Lista de Usuários -->
+                <article
+                    class="row round padding margin-bottom card-usuario"
+                    th:each="usuario : ${usuarios}"
+                >
+                    <!-- Imagem/Placeholder do Usuário -->
+                    <div class="round placeholder-img">
+                        <i>extension</i>
+                    </div>
+
+                    <!-- Informações do Usuário -->
+                    <div class="max">
+                        <h5 th:text="${usuario.nome}">José</h5>
+                        <nav class="wrap margin-top">
+                            <!-- Assumindo que o Model 'Usuario' tem atributos 'cidade' e 'email' -->
+                            <div
+                                class="chip fill surface"
+                                th:text="${usuario.cidade != null ? usuario.cidade : 'Cidade não informada'}"
+                            >
+                                Cidade
+                            </div>
+                            <div
+                                class="chip fill surface"
+                                th:text="${usuario.email}"
+                            >
+                                email@exemplo.com
+                            </div>
+                        </nav>
+                    </div>
+
+                    <!-- Botão de Ação -->
+                    <div class="bottom-align">
+                        <a
+                            th:href="@{/superuser/usuarios/{cpf}(cpf=${usuario.cpf})}"
+                            class="button border round fill surface"
+                        >
+                            <i>more_horiz</i> Ver detalhes
+                        </a>
+                    </div>
+                </article>
+            </article>
+        </main>
+    </body>
+</html>
