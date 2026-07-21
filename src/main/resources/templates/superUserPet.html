@@ -7,30 +7,16 @@
 >
     <head>
         <title>Sudo</title>
-        <style>
-            .placeholder-img {
-                width: 80px;
-                height: 80px;
-                display: flex;
-                overflow: hidden;
-                flex-shrink: 0;
-            }
-            .placeholder-img img {
-                width: 80px;
-                height: 80px;
-                object-fit: cover;
-            }
-        </style>
     </head>
     <body>
         <div layout:fragment="content">
             <div>
                 <article class="primary-container round large-padding bottom-margin">
                     <div class="row wrap">
-                        <i class="extra">admin_panel_settings</i>
+                        <i class="extra">pets</i>
                         <div class="max">
-                            <h3 class="no-margin">Gerenciar Usuários</h3>
-                            <p class="no-margin opacity">Consulte perfis dos usuários.</p>
+                            <h3 class="no-margin">Pets por Tutor</h3>
+                            <p class="no-margin opacity">Acompanhe os pets cadastrados por responsável.</p>
                         </div>
                     </div>
                 </article>
@@ -62,6 +48,18 @@
                             <i>schedule</i>
                             <span>Mais antigos</span>
                         </button>
+                        <button th:class="'chip round ' + (${currentSortBy == 'pet_count' && currentSortDir == 'desc'} ? 'fill' : 'border')"
+                                id="sort-count-desc"
+                                onclick="applyFilter('pet_count','desc')">
+                            <i>pets</i>
+                            <span>Mais pets</span>
+                        </button>
+                        <button th:class="'chip round ' + (${currentSortBy == 'pet_count' && currentSortDir == 'asc'} ? 'fill' : 'border')"
+                                id="sort-count-asc"
+                                onclick="applyFilter('pet_count','asc')">
+                            <i>pets</i>
+                            <span>Menos pets</span>
+                        </button>
                     </div>
                     <div class="max"></div>
                     <div class="row">
@@ -85,60 +83,59 @@
                 </nav>
 
                 <div class="surface round large-padding no-elevate" style="min-height: 60vh">
-                    <div th:if="${#lists.isEmpty(usuarios)}">
-                        <p>Nenhum usuário cadastrado no sistema.</p>
+                    <div th:if="${#lists.isEmpty(proprietarios)}">
+                        <p>Nenhum pet cadastrado no sistema.</p>
                     </div>
 
-                    <article
-                        class="primary-container elevate border round padding bottom-margin"
-                        th:each="usuario : ${usuarios}"
+                    <details
+                        th:each="dono : ${proprietarios}"
+                        th:open="${donoStat.count == 1}"
+                        class="primary-container border round bottom-margin"
                     >
-                        <div class="grid">
-                            <div class="s1 round placeholder-img middle-align center-align surface-variant">
-                                <i th:if="${usuario.fotoPerfil == null}">person</i>
-                                <img th:if="${usuario.fotoPerfil != null}"
-                                     th:src="${usuario.fotoPerfil}"
-                                     alt="Foto"
-                                     class="round">
+                        <summary class="row padding no-margin round">
+                            <i class="large">account_circle</i>
+                            <div class="max">
+                                <h6 th:text="${dono.nome}" class="no-margin">Tutor</h6>
+                                <p class="no-margin">
+                                    <span th:text="${dono.petCount}">0</span>
+                                    <span th:text="${dono.petCount == 1 ? ' pet cadastrado' : ' pets cadastrados'}">pets</span>
+                                    <span> no sistema</span>
+                                </p>
                             </div>
+                            <i>arrow_drop_down</i>
+                        </summary>
 
-                            <div class="s3 left-align">
-                                <h6><strong th:text="${usuario.nome}">José</strong></h6>
-                            </div>
-
-                            <div class="s4 top-padding">
-                                <div><span th:text="${usuario.username}">@username</span></div>
-                                <div><span th:text="${usuario.email}">email@exemplo.com</span></div>
-                            </div>
-
-                            <div class="s2 right-align">
-                                <small th:if="${usuario.dataRegistro != null}"
-                                       th:text="'Registro: ' + ${#temporals.format(usuario.dataRegistro, 'dd/MM/yyyy')}">
-                                    Registro: 01/01/2026
-                                </small>
-                            </div>
-
-                            <div class="s2 middle-align right-align">
-                                <a th:href="@{/superuser/usuarios/{cpf}(cpf=${usuario.cpf})}"
-                                   class="button border round">
-                                    <i>more_horiz</i> Ver detalhes
-                                </a>
+                        <div class="padding">
+                            <div class="grid small-space">
+                                <article
+                                    class="s12 m6 round padding secondary-container"
+                                    th:each="pet : ${dono.pets}"
+                                >
+                                    <div class="row">
+                                        <i class="large text-secondary">pets</i>
+                                        <div class="max">
+                                            <strong th:text="${pet.nome}">Nome</strong>
+                                            <div class="small opacity" th:text="${pet.tipoPetNome}">Tipo</div>
+                                        </div>
+                                        <button class="circle transparent small"><i class="small">arrow_forward</i></button>
+                                    </div>
+                                </article>
                             </div>
                         </div>
-                    </article>
+                    </details>
                 </div>
 
-                    <nav class="row top-margin" th:if="${!page.content.empty || page.totalElements > 0}">
+                <nav class="row top-margin" th:if="${!page.content.empty || page.totalElements > 0}">
                     <div class="left-align top-margin">
                         <span th:if="${page.totalElements > 0}">
                             Mostrando
                             <strong th:text="${page.page * page.size + 1}">1</strong>
                             -
                             <strong
-                                th:text="${page.page * page.size + #lists.size(usuarios)}">10</strong>
+                                th:text="${page.page * page.size + #lists.size(proprietarios)}">10</strong>
                             de
                             <strong th:text="${page.totalElements}">0</strong>
-                            usuários
+                            tutores
                         </span>
                     </div>
                     <div class="max"></div>

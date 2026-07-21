@@ -43,16 +43,31 @@ function goToPage(page) {
 (function setupSearch() {
     var input = document.getElementById('search-input');
     var clearBtn = document.getElementById('clear-search');
+    var sidebarSearchBtn = document.getElementById('sidebar-search-button');
     if (!input) return;
+
+    function applySearch() {
+        var p = getParams();
+        p.q = input.value.trim();
+        p.page = 0;
+        window.location = buildUrl(p);
+    }
 
     input.addEventListener('keydown', function(e) {
         if (e.key === 'Enter') {
-            var p = getParams();
-            p.q = input.value.trim();
-            p.page = 0;
-            window.location = buildUrl(p);
+            applySearch();
         }
     });
+
+    if (clearBtn) {
+        input.addEventListener('input', function() {
+            clearBtn.style.display = input.value.trim() ? '' : 'none';
+        });
+    }
+
+    if (sidebarSearchBtn) {
+        sidebarSearchBtn.addEventListener('click', applySearch);
+    }
 
     if (clearBtn) {
         clearBtn.addEventListener('click', function() {

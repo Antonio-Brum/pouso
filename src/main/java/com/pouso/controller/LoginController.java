@@ -41,7 +41,7 @@ public class LoginController {
 
             String nivel = usuarioRepository.buscarNivelAdmin(cpf);
             if ("S".equals(nivel)) {
-                return "redirect:/sudo";
+                return "redirect:/sudo/users";
             }
 
             return "redirect:/home";
