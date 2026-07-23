@@ -3,7 +3,7 @@
 -- =========================================================================
 INSERT INTO pessoa (cpf, nome, email, senha) VALUES
 -- Admins Originais
-('11111111111', 'Admin Supremo', 'admin@pouso.com', 'admin123'),
+('00000000000', 'Admin Supremo', 'admin@pouso.com', 'admin123'),
 ('22222222222', 'Admin Moderado', 'mod@pouso.com', 'mod123'),
 -- Usuários Originais
 ('33333333333', 'João Silva', 'joao@email.com', '123456'),
@@ -115,7 +115,7 @@ INSERT INTO pessoa (cpf, nome, email, senha) VALUES
 -- 2. TABELA: administrador
 -- =========================================================================
 INSERT INTO administrador (cpf, nivel) VALUES
-('11111111111', 'S'),
+('00000000000', 'S'),
 ('22222222222', 'M');
 
 -- =========================================================================
